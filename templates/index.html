@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detection Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Emotion Detection Application</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">
+            Analyze customer feedback and detect emotions in text
+        </p>
+        
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="text">Enter text to analyze:</label>
+                <textarea 
+                    id="text" 
+                    name="text" 
+                    placeholder="Enter your text here... (e.g., 'I am so happy today!')"
+                    required
+                >{{ request.form.get('text', '') }}</textarea>
+            </div>
+            <button type="submit">Detect Emotion</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>Emotion Analysis Results</h2>
+            {% if result.error %}
+                <div class="error">
+                    <strong>Error:</strong> {{ result.error }}
+                </div>
+            {% else %}
+                <div class="emotion-item">
+                    <span class="emotion-label">Anger:</span>
+                    <span class="emotion-score">{{ result.anger }}%</span>
+                </div>
+                <div class="emotion-item">
+                    <span class="emotion-label">Disgust:</span>
+                    <span class="emotion-score">{{ result.disgust }}%</span>
+                </div>
+                <div class="emotion-item">
+                    <span class="emotion-label">Fear:</span>
+                    <span class="emotion-score">{{ result.fear }}%</span>
+                </div>
+                <div class="emotion-item">
+                    <span class="emotion-label">Joy:</span>
+                    <span class="emotion-score">{{ result.joy }}%</span>
+                </div>
+                <div class="emotion-item">
+                    <span class="emotion-label">Sadness:</span>
+                    <span class="emotion-score">{{ result.sadness }}%</span>
+                </div>
+                <div class="dominant-emotion">
+                    <strong>Dominant Emotion:</strong> {{ result.dominant_emotion }}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
